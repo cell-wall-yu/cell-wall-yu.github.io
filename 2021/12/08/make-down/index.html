@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head><meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+<meta name="description" content="makedown使用语法"/><meta name="keywords" content="makedown, 以然杂记" /><link rel="alternate" href="/atom.xml" title="以然杂记" type="application/atom+xml">
+<link rel="canonical" href="http://example.com/2021/12/08/make-down/"/>
+
+
+<link rel="stylesheet" type="text/css" href="/css/style.css?v=" />
+
+<script>
+  window.config = {"leancloud":"","toc":"","fancybox":"","pjax":"","latex":""};
+</script>
+
+    <title>makedown使用语法 - 以然杂记</title>
+  <meta name="generator" content="Hexo 5.4.0"></head>
+
+  <body><div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/." class="logo">以然杂记</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list"><a href="/">
+        <li class="mobile-menu-item">首页
+          </li>
+      </a><a href="/archives/">
+        <li class="mobile-menu-item">归档
+          </li>
+      </a><a href="/tags">
+        <li class="mobile-menu-item">标签
+          </li>
+      </a></ul>
+</nav>
+<div class="container" id="mobile-panel">
+      <header id="header" class="header"><div class="logo-wrapper">
+  <a href="/." style="font-size:35px">以然杂记</a>
+</div>
+
+<nav class="site-navbar"><ul id="menu" class="menu"><li class="menu-item">
+          <a class="menu-item-link" href="/">
+            首页
+            </a>
+        </li>
+      <li class="menu-item">
+          <a class="menu-item-link" href="/archives/">
+            归档
+            </a>
+        </li>
+      <li class="menu-item">
+          <a class="menu-item-link" href="/tags">
+            标签
+            </a>
+        </li>
+      </ul></nav>
+</header>
+
+      <main id="main" class="main">
+        <div class="content-wrapper">
+          <div id="content" class="content"><article class="post">
+    <header class="post-header">
+      <h1 class="post-title">makedown使用语法
+        </h1>
+
+      <div class="post-meta">
+        <span class="post-time">
+          2021-12-08
+        </span></div>
+    </header>
+
+    <div class="post-content"><p>makedown是一个轻量级的标记语言，目前越来越多的写作爱好者所使用。优点很多，纯文本内容兼容所有文本编辑器、语法简单、轻松导出HTML、PDF和本身.md文件。<br>下面是最基本最基础的makedown语法</p>
+<h1 id="基本语法"><a href="#基本语法" class="headerlink" title="基本语法"></a>基本语法</h1><ul>
+<li>标题<pre><code>  #号与文字之间有一个空格键
+</code></pre>
+ex:<blockquote>
+<p>  #一级标题<br>  ##二级标题<br>  ###三级标题<br>  ####四级标题<br>  #####五级标题<br>  ######六级标题</p>
+</blockquote>
+</li>
+</ul>
+<p>eff:</p>
+<h1 id="一级标题"><a href="#一级标题" class="headerlink" title="一级标题"></a>一级标题</h1><h2 id="二级标题"><a href="#二级标题" class="headerlink" title="二级标题"></a>二级标题</h2><h3 id="三级标题"><a href="#三级标题" class="headerlink" title="三级标题"></a>三级标题</h3><h4 id="四级标题"><a href="#四级标题" class="headerlink" title="四级标题"></a>四级标题</h4><h5 id="五级标题"><a href="#五级标题" class="headerlink" title="五级标题"></a>五级标题</h5><h6 id="六级标题"><a href="#六级标题" class="headerlink" title="六级标题"></a>六级标题</h6><ul>
+<li>有序列表<pre><code>  在行首增加 1.、2.、3.，即数字和英文句点, 不要求数字一定要连续，可以都是1
+</code></pre>
+ex:<blockquote>
+<p>  1.<br>  2.<br>  3.<br>  1.<br>  1.</p>
+</blockquote>
+</li>
+</ul>
+<p>eff:</p>
+<blockquote>
+<p>  1.<br>  2.<br>  3.<br>  1.<br>  1.</p>
+</blockquote>
+<ul>
+<li>无序列表<pre><code>  在行首增加 * 或 -，符号与字体之间有一个空格键
+</code></pre>
+ex:<blockquote>
+<p>  *效果<br>  -效果</p>
+</blockquote>
+</li>
+</ul>
+<p>eff:</p>
+<blockquote>
+<ul>
+<li>效果</li>
+</ul>
+<ul>
+<li>效果</li>
+</ul>
+</blockquote>
+<ul>
+<li><p>字体</p>
+<pre><code>  *斜体文本* _斜体文本_  **粗体文本** __粗体文本__  ***粗斜体文本*** ___粗斜体文本___
+</code></pre>
+<p>ex:</p>
+<blockquote>
+<p>  <em>斜体文本</em><br>  <em>斜体文本</em><br>  <strong>粗体文本</strong><br>  <strong>粗体文本</strong><br>  <em><strong>粗斜体文本</strong></em><br>  <em><strong>粗斜体文本</strong></em></p>
+</blockquote>
+</li>
+<li><p>分割线</p>
+<pre><code>  在一行中用三个以上的星号、减号、底线来建立一个分隔线，行内不能有其他东西
+</code></pre>
+</li>
+</ul>
+<p>eff:</p>
+<blockquote>
+<hr>
+<hr>
+</blockquote>
+<ul>
+<li>引用区块<pre><code>  Markdown 区块引用是在段落开头使用 &gt; 符号 ，然后后面紧跟一个空格符号：
+  另外区块是可以嵌套的，一个 &gt; 符号是最外层，两个 &gt; 符号是第一层嵌套，以此类推：
+</code></pre>
+</li>
+</ul>
+<p>eff:</p>
+<blockquote>
+<p>  dsafasdf</p>
+<blockquote>
+<p> sdadsfs</p>
+</blockquote>
+</blockquote>
+<ul>
+<li>代码<pre><code>  如果是段落上的一个函数或片段的代码可以用反引号把它包起来（`）
+  你也可以用 ``` 包裹一段代码，并指定一种语言（也可以不指定）：
+</code></pre>
+</li>
+</ul>
+<p>eff:</p>
+<blockquote>
+<p>  <code>addUser()</code><br>  <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rm -rf /usr/local</span><br></pre></td></tr></table></figure></p>
+</blockquote>
+<ul>
+<li>链接<pre><code>  [链接名称](链接地址)或者&lt;链接地址&gt;
+</code></pre>
+</li>
+</ul>
+<p>eff:</p>
+<blockquote>
+<p>  <a target="_blank" rel="noopener" href="https://www.baidu.com/">百度</a>或者<a target="_blank" rel="noopener" href="https://www.baidu.com/">https://www.baidu.com</a></p>
+</blockquote>
+<ul>
+<li>图片<pre><code>  使用：![alt 属性文本](图片地址) or ![alt 属性文本](图片地址 &quot;可选标题&quot;)
+</code></pre>
+</li>
+</ul>
+<p>eff:</p>
+<blockquote>
+<p>  <img src="http://static.runoob.com/images/runoob-logo.png"><br>  <img src="http://static.runoob.com/images/runoob-logo.png" alt="RUNOOB 图标" title="asdfsad"></p>
+</blockquote>
+<ul>
+<li>表格<pre><code>  Markdown 制作表格使用 | 来分隔不同的单元格，使用 - 来分隔表头和其他行。
+  |  表头   | 表头  |
+  |  ----  | ----  |
+  | 单元格  | 单元格 |
+  -: 设置内容和标题栏居右对齐
+  :- 设置内容和标题栏居左对齐
+  :-: 设置内容和标题栏居中对齐
+</code></pre>
+</li>
+</ul>
+<p>eff:</p>
+<blockquote>
+<table>
+<thead>
+<tr>
+<th align="center">表头</th>
+<th align="center">表头</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">单元格</td>
+<td align="center">单元格</td>
+</tr>
+</tbody></table>
+</blockquote>
+
+      </div>
+      
+      <footer class="post-footer">
+        <div class="post-tags">
+            <a href="/tags/makedown/">makedown</a>
+            </div>
+        
+        <nav class="post-nav"><a class="next" href="/2021/12/08/java/">
+        <span class="next-text nav-default">java</span>
+        <span class="prev-text nav-mobile">下一篇</span>
+        <i class="iconfont icon-right"></i>
+      </a>
+    </nav></footer>
+    </article></div><div class="comments" id="comments"></div></div>
+      </main>
+
+      <footer id="footer" class="footer"><div class="social-links"><a href="mailto:13047204024@163.com" class="iconfont icon-email" title="email"></a>
+        <a target="_blank" rel="noopener" href="https://github.com/cell-wall-yu" class="iconfont icon-github" title="github"></a>
+        </div><div class="copyright">
+  <span class="power-by">
+    由 <a class="hexo-link" target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a> 强力驱动
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    主题 - 
+    <a class="theme-link" target="_blank" rel="noopener" href="https://github.com/ahonn/hexo-theme-even">Even</a>
+  </span>
+
+  <span class="copyright-year">&copy;2021<span class="heart">
+      <i class="iconfont icon-heart"></i>
+    </span>
+    <span class="author">yiran</span>
+  </span>
+</div>
+</footer>
+
+      <div class="back-to-top" id="back-to-top">
+        <i class="iconfont icon-up"></i>
+      </div>
+    </div><script type="text/javascript" src="/lib/jquery/jquery.min.js"></script>
+  <script type="text/javascript" src="/lib/slideout/slideout.js"></script>
+  <script type="text/javascript" src="/js/src/even.js?v="></script>
+</body>
+</html>
