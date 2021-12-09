@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head><meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+<meta name="description" content="mini-mvc实现一个约定大于配置的接口servlet"/><meta name="keywords" content="mini-mvc, springmvc, servlet, 以然杂记" /><link rel="alternate" href="/atom.xml" title="以然杂记" type="application/atom+xml">
+<link rel="canonical" href="http://example.com/2021/12/10/mini-mvc/"/>
+
+
+<link rel="stylesheet" type="text/css" href="/css/style.css?v=" />
+
+<script>
+  window.config = {"leancloud":"","toc":"","fancybox":"","pjax":"","latex":""};
+</script>
+
+    <title>mini-mvc实现一个约定大于配置的接口servlet - 以然杂记</title>
+  <meta name="generator" content="Hexo 5.4.0"></head>
+
+  <body><div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/." class="logo">以然杂记</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list"><a href="/">
+        <li class="mobile-menu-item">首页
+          </li>
+      </a><a href="/archives/">
+        <li class="mobile-menu-item">归档
+          </li>
+      </a><a href="/tags">
+        <li class="mobile-menu-item">标签
+          </li>
+      </a></ul>
+</nav>
+<div class="container" id="mobile-panel">
+      <header id="header" class="header"><div class="logo-wrapper">
+  <a href="/." style="font-size:35px">以然杂记</a>
+</div>
+
+<nav class="site-navbar"><ul id="menu" class="menu"><li class="menu-item">
+          <a class="menu-item-link" href="/">
+            首页
+            </a>
+        </li>
+      <li class="menu-item">
+          <a class="menu-item-link" href="/archives/">
+            归档
+            </a>
+        </li>
+      <li class="menu-item">
+          <a class="menu-item-link" href="/tags">
+            标签
+            </a>
+        </li>
+      </ul></nav>
+</header>
+
+      <main id="main" class="main">
+        <div class="content-wrapper">
+          <div id="content" class="content"><article class="post">
+    <header class="post-header">
+      <h1 class="post-title">mini-mvc实现一个约定大于配置的接口servlet
+        </h1>
+
+      <div class="post-meta">
+        <span class="post-time">
+          2021-12-10
+        </span></div>
+    </header>
+
+    <div class="post-content"><h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><blockquote>
+<p>关于自己写一个自定义的servlet的初衷，首先由于使用springboot写controller接口时需要使用许多的注解例如<code>@GetMapping(&quot;/add&quot;)</code>,<code>@RequestMapping(&quot;/user&quot;)</code>,<code>@RequestBody</code> 以及还需要配置文档生成注解,还需要想很多接口uri,有的时候还遇见接口uri重复，忘记写接口参数的注解`@RequestParam(value = “name”)，结合在之前公司使用改造的webx的miniwebx的基础上我重新将它撸了一遍以及改造。</p>
+</blockquote>
+<p><a target="_blank" rel="noopener" href="https://github.com/cell-wall-yu/winter">github源代码地址</a></p>
+<h2 id="特点"><a href="#特点" class="headerlink" title="特点"></a>特点</h2><blockquote>
+<ol>
+<li><p>约定大于配置，弱化配置，按照约定简单使用</p>
+</li>
+<li><p>解决使用接口uri地址注解的问题:按照约定配置获取controller层在容器中的bean,获取该bean中的公共的（public）方法，生成指定的接口uri,将uri作为map的key,而value则是MvcUriMethod对象缓存起来。</p>
+   <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MvcUriMethod</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> String uri;</span><br><span class="line">    <span class="keyword">private</span> Object handleObject;</span><br><span class="line">    <span class="keyword">private</span> Method handleMethod;</span><br><span class="line"> </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">MvcUriMethod</span><span class="params">(String uri, Object handleObject, Method handleMethod)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>();</span><br><span class="line">        <span class="keyword">if</span> (handleMethod == <span class="keyword">null</span>) &#123;</span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> RuntimeException(<span class="string">&quot;handleMethod is null&quot;</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">this</span>.uri = uri;</span><br><span class="line">        <span class="keyword">this</span>.handleObject = handleObject;</span><br><span class="line">        <span class="keyword">this</span>.handleMethod = handleMethod;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+<li><p>解决接口参数使用注解的问题，约定所有的接口任何请求都可以请求但是传参一定要按格式传</p>
+<p> Get请求</p>
+ <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl http://localhost:8008/shop-start/user/UserController/string.json?name=yiran&amp;age=20</span><br></pre></td></tr></table></figure>
+
+<p> Post,Put,Delete请求</p>
+ <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl -x Post -H <span class="string">&#x27;Content-Type:application/json&#x27;</span> -d <span class="string">&#x27;&#123;&#x27;</span>name<span class="string">&#x27;:&#x27;</span>yiran<span class="string">&#x27;,&#x27;</span>age<span class="string">&#x27;:20&#125;&#x27;</span>http://localhost:8008/shop-start/user/UserController/string.json</span><br></pre></td></tr></table></figure></li>
+<li><p>无需配置生成接口文档（还没实现）</p>
+</li>
+<li><p>通过自己配置的拦截器bean进行拦截处理</p>
+</li>
+<li><p>返回值处理(json格式)</p>
+<pre><code><figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="attr">&quot;code&quot;</span>: <span class="number">0</span>,</span><br><span class="line">    <span class="attr">&quot;data&quot;</span>: <span class="string">&quot;11&quot;</span></span><br><span class="line">&#125;</span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * code码</span></span><br><span class="line"><span class="comment">     * &lt;pre&gt;</span></span><br><span class="line"><span class="comment">     * 0:  操作成功</span></span><br><span class="line"><span class="comment">     * 404  接口不存在</span></span><br><span class="line"><span class="comment">     * 500  后台业务异常（已捕获）</span></span><br><span class="line"><span class="comment">     * 501  后台系统异常（未捕获）</span></span><br><span class="line"><span class="comment">     * 601  未登陆</span></span><br><span class="line"><span class="comment">     * 602  权限异常</span></span><br><span class="line"><span class="comment">     * &lt;/pre&gt;</span></span><br><span class="line"><span class="comment">*/</span></span><br></pre></td></tr></table></figure>
+</code></pre>
+</li>
+<li><p>同时保留了springboot中dispatchservlet使用方式兼顾之间</p>
+</li>
+</ol>
+</blockquote>
+<h2 id="准备工作"><a href="#准备工作" class="headerlink" title="准备工作"></a>准备工作</h2><blockquote>
+<ol>
+<li>需要从spring容器中获取controller层的bean,将该bean中的public方法和生成约定的接口uri保存到map集合中</li>
+<li>需要自定义一个servlet继承HttpServlet</li>
+</ol>
+</blockquote>
+
+      </div>
+      
+      <footer class="post-footer">
+        <div class="post-tags">
+            <a href="/tags/mini-mvc/">mini-mvc</a>
+            <a href="/tags/springmvc/">springmvc</a>
+            <a href="/tags/servlet/">servlet</a>
+            </div>
+        
+        <nav class="post-nav"><a class="next" href="/2021/12/08/make-down/">
+        <span class="next-text nav-default">makedown使用语法</span>
+        <span class="prev-text nav-mobile">下一篇</span>
+        <i class="iconfont icon-right"></i>
+      </a>
+    </nav></footer>
+    </article></div><div class="comments" id="comments"></div></div>
+      </main>
+
+      <footer id="footer" class="footer"><div class="social-links"><a href="mailto:13047204024@163.com" class="iconfont icon-email" title="email"></a>
+        <a target="_blank" rel="noopener" href="https://github.com/cell-wall-yu" class="iconfont icon-github" title="github"></a>
+        </div><div class="copyright">
+  <span class="power-by">
+    由 <a class="hexo-link" target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a> 强力驱动
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    主题 - 
+    <a class="theme-link" target="_blank" rel="noopener" href="https://github.com/ahonn/hexo-theme-even">Even</a>
+  </span>
+
+  <span class="copyright-year">&copy;2021<span class="heart">
+      <i class="iconfont icon-heart"></i>
+    </span>
+    <span class="author">yiran</span>
+  </span>
+</div>
+</footer>
+
+      <div class="back-to-top" id="back-to-top">
+        <i class="iconfont icon-up"></i>
+      </div>
+    </div><script type="text/javascript" src="/lib/jquery/jquery.min.js"></script>
+  <script type="text/javascript" src="/lib/slideout/slideout.js"></script>
+  <script type="text/javascript" src="/js/src/even.js?v="></script>
+</body>
+</html>
